@@ -20,7 +20,7 @@ public class HelpCommand extends AnonymCommand{
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommand());
+        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommandIdentifier());
 
         StringBuilder helpMessageBuilder = new StringBuilder("<b>Available commands:</b>");
 
@@ -32,10 +32,5 @@ public class HelpCommand extends AnonymCommand{
         helpMessage.setText(helpMessageBuilder.toString());
 
         execute(absSender, helpMessage, user);
-    }
-
-    @Override
-    public String getCommandIdentifier() {
-        return command;
     }
 }

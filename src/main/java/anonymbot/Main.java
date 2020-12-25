@@ -15,21 +15,21 @@ public class Main {
     private static final String PROXY_HOST = "xx.xx.xxx.xxx";
     private static final int PROXY_PORT = 9999;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
 
         try {
             LOG.info("Initializing API context...");
-        ApiContextInitializer.init();
+            ApiContextInitializer.init();
 
-        TelegramBotsApi botsApi = new TelegramBotsApi();
+            TelegramBotsApi botsApi = new TelegramBotsApi();
 
-        LOG.info("Configuring bot options...");
-        DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            LOG.info("Configuring bot options...");
+            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
-        botOptions.setProxyHost(PROXY_HOST);
-        botOptions.setProxyPort(PROXY_PORT);
-        botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
+            botOptions.setProxyHost(PROXY_HOST);
+            botOptions.setProxyPort(PROXY_PORT);
+            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
             LOG.info("Registering Anonymizer...");
             botsApi.registerBot(new AnonymBot(botOptions));

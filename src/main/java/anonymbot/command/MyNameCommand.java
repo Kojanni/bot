@@ -21,36 +21,31 @@ public class MyNameCommand extends AnonymCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommand());
+        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommandIdentifier());
 
         StringBuilder sb = new StringBuilder();
 
         SendMessage message = new SendMessage();
         message.setChatId(chat.getId().toString());
 
-        if (!anonymService.hasAnonymous(user)) {
+        if (!AnonymService.hasAnonymous(user)) {
 
             sb.append("You are not in bot users' list! Send /start command!");
-            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without starting the bot.", user.getId(), getCommand());
+            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without starting the bot.", user.getId(), getCommandIdentifier());
 
-        } else if (anonymService.getDisplayedName(user) == null) {
+        } else if (AnonymService.getDisplayedName(user) == null) {
 
             sb.append("Currently you don't have a name.\nSet it using command:\n'/set_name &lt;displayed_name&gt;'");
-            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without having a name.", user.getId(), getCommand());
+            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without having a name.", user.getId(), getCommandIdentifier());
 
         } else {
 
-            log.info("User {} is executing '{}'. Name is '{}'.", user.getId(), getCommand(), anonymService.getDisplayedName(user));
-            sb.append("Your current name: ").append(anonymService.getDisplayedName(user));
+            log.info("User {} is executing '{}'. Name is '{}'.", user.getId(), getCommandIdentifier(), AnonymService.getDisplayedName(user));
+            sb.append("Your current name: ").append(AnonymService.getDisplayedName(user));
         }
 
         message.setText(sb.toString());
         execute(absSender, message, user);
-    }
-
-    @Override
-    public String getCommandIdentifier() {
-        return command;
     }
 }
 

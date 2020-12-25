@@ -25,7 +25,7 @@ public class StopCommand extends AnonymCommand implements IBotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
 
-        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommand());
+        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommandIdentifier());
 
         StringBuilder sb = new StringBuilder();
 
@@ -44,10 +44,6 @@ public class StopCommand extends AnonymCommand implements IBotCommand {
         execute(absSender, message, user);
     }
 
-    @Override
-    public String getCommandIdentifier() {
-        return command;
-    }
 
 }
 
