@@ -1,6 +1,6 @@
 package anonymbot;
 
-import anonymbot.bot.AnonymBot;
+import anonymbot.bot.Bot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -19,20 +19,22 @@ public class Main {
 
 
         try {
+            //инициализация API-телеги
             LOG.info("Initializing API context...");
             ApiContextInitializer.init();
 
-            TelegramBotsApi botsApi = new TelegramBotsApi();
+            //для обращения к API:
+            TelegramBotsApi telegram = new TelegramBotsApi();
 
-            LOG.info("Configuring bot options...");
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+//            LOG.info("Configuring bot options...");
+           DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
-            botOptions.setProxyHost(PROXY_HOST);
-            botOptions.setProxyPort(PROXY_PORT);
-            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
+//            botOptions.setProxyHost(PROXY_HOST);
+//            botOptions.setProxyPort(PROXY_PORT);
+//            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
             LOG.info("Registering Anonymizer...");
-            botsApi.registerBot(new AnonymBot(botOptions));
+            telegram.registerBot(new Bot(botOptions));
 
             LOG.info("Anonymizer bot is ready for work!");
 
