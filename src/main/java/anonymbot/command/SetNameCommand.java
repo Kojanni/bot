@@ -3,7 +3,6 @@ package anonymbot.command;
 import anonymbot.logger.LogLevel;
 import anonymbot.logger.LogTemplate;
 import anonymbot.service.AnonymService;
-import lombok.NonNull;
 import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -22,13 +21,13 @@ public class SetNameCommand extends AnonymCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommand());
+        log.info(LogTemplate.COMMAND_PROCESSING.getTemplate(), user.getId(), getCommandIdentifier());
 
         SendMessage message = new SendMessage();
         message.setChatId(chat.getId().toString());
 
-        if (!anonymService.hasAnonymous(user)) {
-            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without starting the bot!", user.getId(), getCommand());
+        if (!AnonymService.hasAnonymous(user)) {
+            log.log(Level.getLevel(LogLevel.STRANGE.getValue()), "User {} is trying to execute '{}' without starting the bot!", user.getId(), getCommandIdentifier());
             message.setText("Firstly you should start the bot! Execute '/start' command!");
             execute(absSender, message, user);
             return;
@@ -47,7 +46,7 @@ public class SetNameCommand extends AnonymCommand {
 
         if (anonymService.setUserDisplayedName(user, displayedName)) {
 
-            if (anonymService.getDisplayedName(user) == null) {
+            if (AnonymService.getDisplayedName(user) == null) {
                 log.info("User {} set a name '{}'", user.getId(), displayedName);
                 sb.append("Your displayed name: '").append(displayedName)
                         .append("'. Now you can send messages to bot!");
@@ -72,11 +71,6 @@ public class SetNameCommand extends AnonymCommand {
 
         String name = String.join(" ", strings);
         return name.replaceAll(" ", "").isEmpty() ? null : name;
-    }
-
-    @Override
-    public String getCommandIdentifier() {
-        return command;
     }
 }
 
